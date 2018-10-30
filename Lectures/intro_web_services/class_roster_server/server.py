@@ -43,8 +43,7 @@ Base.metadata.create_all(engine)
 REQUIRED_REQUEST_KEYS = [
     "first_name",
     "last_name",
-    "netid",
-    "team_name",
+    "netid", 
     "github_username"
 ]
 
