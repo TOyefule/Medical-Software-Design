@@ -7,7 +7,7 @@ import os
 import uuid
 
 app = Flask(__name__)
-engine = create_engine("postgresql://postgres:{0}@db:5432/postgres".format(os.environ.get("POSTGRES_PASSWORD")))
+engine = create_engine("postgresql://postgres:{0}@db:5432/postgres".format(os.environ.get("POSTGRES_PASSWORD")), max_overflow=20)
 Session = sessionmaker(bind=engine)
 Base = declarative_base()
 
