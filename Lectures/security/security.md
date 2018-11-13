@@ -22,7 +22,7 @@ Security is an especially important consideration when working with medical soft
   - Certificate Authorities (CAs) are responsible for "vouching" for the identity of a server.
  
 ## Add TLS/SSL to your server
-You can add TLS/SSL to your server pretty easily (and for free) these days because of certificate authorities like [Let's Encrypt](https://letsencrypt.org/) that make verification easy. Tools like [`ssl-proxy`](https://github.com/suyashkumar/ssl-proxy) (disclaimer: this was built by me) make negotiating and serving a LetsEncrypt certificate as easy as running a single command. You may also acquire certificates using [certbot](https://certbot.eff.org/) and incoporate them manually into [Flask](https://stackoverflow.com/questions/28579142/attributeerror-context-object-has-no-attribute-wrap-socket/28590266#28590266).
+You can add TLS/SSL to your server pretty easily (and for free) these days because of certificate authorities like [Let's Encrypt](https://letsencrypt.org/) that make verification easy. Tools like [`ssl-proxy`](https://github.com/suyashkumar/ssl-proxy) (disclaimer: this was built by @suyashkumar) make negotiating and serving a LetsEncrypt certificate as easy as running a single command. You may also acquire certificates using [certbot](https://certbot.eff.org/) and incoporate them manually into [Flask](https://stackoverflow.com/questions/28579142/attributeerror-context-object-has-no-attribute-wrap-socket/28590266#28590266).
 
 ## Using ssl-proxy
 - Login to your Duke virtual machine.
