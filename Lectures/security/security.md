@@ -19,4 +19,23 @@ Security is an especially important consideration when working with medical soft
 - [TLS/SSL](https://en.wikipedia.org/wiki/Transport_Layer_Security)
   - Important to ensure communications between clients and servers are not observed by eavesdroppers
   - __Also__ important to ensure that the client can verify the identity of the server (ensure that no malicious party is masquerading as the server). 
+  - Certificate Authorities (CAs) are responsible for "vouching" for the identity of a server.
  
+## Add TLS/SSL to your server
+You can add TLS/SSL to your server pretty easily (and for free) these days because of certificate authorities like [Let's Encrypt](https://letsencrypt.org/) that make verification easy. Tools like [`ssl-proxy`](https://github.com/suyashkumar/ssl-proxy) (disclaimer: this was built by me) make negotiating and serving a LetsEncrypt certificate as easy as running a single command.
+
+## Using ssl-proxy
+- Login to your Duke virtual machine.
+- Download the latest release of [`ssl-proxy`](https://github.com/suyashkumar/ssl-proxy) to your virtual machine:
+  ```sh
+  wget -qO- https://github.com/suyashkumar/ssl-proxy/releases/download/v0.2.2/ssl-proxy-linux-amd64.tar.gz | tar xvz
+  sudo mv ssl-proxy-linux-amd64 /usr/local/bin/ssl-proxy # Move the command into your path, rename as ssl-proxy
+  ```
+- Create a screen, and run your flask web server, ensure that you have `127.0.0.1` set as your host (only allowing incoming requests from the VM, preventing the outside world from sending requests to your server directly). This example assumes your port is :5000.
+- In another screen, run `ssl-proxy` as follows:
+  ```sh
+  sudo ssl-proxy -from 0.0.0.0:443 -to 127.0.0.1:5000 -domain $YOUR_VCM_DOMAIN_NAME_HERE
+  ```
+  This command will negotiate, fetch, and install an ssl certificate for you and serve that ssl certificate on port 443 (the default port for SSL, whenever you go to a website using `https://`). It will take all incoming web traffic served and negotiated using SSL/TLS, and then send it along to your web service listening for incoming requests at `127.0.0.1:5000`. :eyes: Notice that in this example we asked you to list the `127.0.0.1` loopback as your host because `127.0.0.1` will not allow external connections outside of your VCM to send requests to the flask server. Since the `ssl-proxy` program is running on your VM, it is allowed to send connections, but no one else can attempt to contact your flask server directly (they must all go through the `ssl-proxy` layer first).
+  
+
